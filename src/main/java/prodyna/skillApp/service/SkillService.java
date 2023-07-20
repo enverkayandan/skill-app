@@ -39,6 +39,6 @@ public class SkillService {
     }
 
     public List<Skill> getAllSkills() {
-        return getAllSkills();
+        return skillRepository.findAll();
     }
 }
