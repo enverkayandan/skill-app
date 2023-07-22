@@ -1,4 +1,4 @@
-package prodyna.skillApp.service;
+package prodyna.skillApp.service.Skill;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,12 +8,12 @@ import prodyna.skillApp.repository.SkillRepository;
 import java.util.List;
 
 @Service
-public class SkillService {
+public class SkillServiceImpl implements SkillService {
 
     private final SkillRepository skillRepository;
 
     @Autowired
-    public SkillService(SkillRepository skillRepository) {
+    public SkillServiceImpl(SkillRepository skillRepository) {
         this.skillRepository = skillRepository;
     }
 

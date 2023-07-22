@@ -1,14 +1,12 @@
 package prodyna.skillApp.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import prodyna.skillApp.entity.Skill;
-import prodyna.skillApp.service.SkillService;
+import prodyna.skillApp.service.Skill.SkillService;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -32,35 +30,43 @@ public class SkillController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Skill> getSkill(@PathVariable Long id) {
-        Skill skill = skillService.getSkillById(id);
-        if (skill != null) {
+        try {
+            Skill skill = skillService.getSkillById(id);
             return ResponseEntity.ok(skill);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Skill not found");
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
     public ResponseEntity<Skill> createSkill(@RequestBody @Valid Skill skill) {
-        Skill createdSkill = skillService.createSkill(skill);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(createdSkill.getId()).toUri();
-        return ResponseEntity.created(location).body(createdSkill);
+        try {
+            Skill createdSkill = skillService.createSkill(skill);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                    .buildAndExpand(createdSkill.getId()).toUri();
+            return ResponseEntity.created(location).body(createdSkill);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Skill> updateSkill(@PathVariable Long id, @RequestBody @Valid Skill updatedSkill) {
-        Skill skill = skillService.updateSkill(id, updatedSkill);
-        if (skill != null) {
-            return ResponseEntity.ok(skill);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Skill not found");
+        try {
+            return ResponseEntity.ok(skillService.updateSkill(id, updatedSkill));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
         }
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSkill(@PathVariable Long id) {
-        skillService.deleteSkill(id);
-        return ResponseEntity.noContent().build();
+        try {
+            skillService.deleteSkill(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
