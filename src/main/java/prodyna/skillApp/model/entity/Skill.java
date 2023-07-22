@@ -1,11 +1,13 @@
 package prodyna.skillApp.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.envers.Audited;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity(name = "skill")
+@Audited
 public class Skill {
 
     @Id
