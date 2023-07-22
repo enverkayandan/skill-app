@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
-import prodyna.skillApp.entity.Skill;
-import prodyna.skillApp.entity.User;
+import prodyna.skillApp.model.entity.Skill;
+import prodyna.skillApp.model.entity.User;
 import prodyna.skillApp.service.User.UserService;
 
 import java.util.Objects;

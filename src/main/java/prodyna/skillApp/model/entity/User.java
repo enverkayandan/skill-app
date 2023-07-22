@@ -1,4 +1,4 @@
-package prodyna.skillApp.entity;
+package prodyna.skillApp.model.entity;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;

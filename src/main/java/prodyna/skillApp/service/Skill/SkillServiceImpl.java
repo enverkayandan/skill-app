@@ -2,7 +2,7 @@ package prodyna.skillApp.service.Skill;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import prodyna.skillApp.entity.Skill;
+import prodyna.skillApp.model.entity.Skill;
 import prodyna.skillApp.repository.SkillRepository;
 
 import java.util.List;

@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import prodyna.skillApp.entity.Skill;
+import prodyna.skillApp.model.entity.Skill;
 import prodyna.skillApp.service.Skill.SkillService;
 
 import javax.validation.Valid;

@@ -1,6 +1,6 @@
-package prodyna.skillApp.dto;
+package prodyna.skillApp.model.dto;
 
-import prodyna.skillApp.entity.Skill;
+import prodyna.skillApp.model.entity.Skill;
 
 public class SkillDTO {
     private Long id;
