@@ -14,7 +14,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -29,5 +29,9 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findById(username).orElseThrow();
+    }
+
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 }
