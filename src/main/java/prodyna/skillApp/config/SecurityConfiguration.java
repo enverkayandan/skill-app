@@ -21,27 +21,11 @@ import prodyna.skillApp.service.User.UserService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-
-    @Value("${spring.datasource.username}")
-    String username;
-    @Value("${spring.datasource.password}")
-    String password;
-
     @Autowired
     UserService userService;
 
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    @Bean
-    InMemoryUserDetailsManager user() {
-        return new InMemoryUserDetailsManager(
-                User
-                        .withUsername("admin")
-                        .password("123456")
-                        .roles("ADMIN", "USER")
-                        .build()
-        );
-    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
