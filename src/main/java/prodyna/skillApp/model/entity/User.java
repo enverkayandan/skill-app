@@ -4,13 +4,16 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
+import java.util.*;
 
 @Entity
 public class User implements UserDetails {
     @Id
     private String username;
     private String password;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Skill> skills = new HashSet<>();
 
     public User() {
     }
@@ -55,5 +58,21 @@ public class User implements UserDetails {
 
     public void setPassword(String passwordHash) {
         this.password = passwordHash;
+    }
+
+    public Set<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
+    }
+
+    public void addSkill(Skill skill) {
+        this.skills.add(skill);
+    }
+
+    public void removeSkill(Skill skill) {
+        this.skills.remove(skill);
     }
 }

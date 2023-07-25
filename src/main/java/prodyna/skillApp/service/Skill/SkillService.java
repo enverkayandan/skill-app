@@ -14,4 +14,6 @@ public interface SkillService {
     boolean deleteSkill(Long id);
 
     List<Skill> getAllSkills();
+
+    Skill getSkillByName(String name);
 }

@@ -3,10 +3,9 @@ package prodyna.skillApp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import prodyna.skillApp.model.dto.UserDTO;
+import prodyna.skillApp.model.entity.Skill;
 import prodyna.skillApp.model.entity.User;
 import prodyna.skillApp.service.User.UserService;
 
@@ -21,11 +20,13 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        try {
-            return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+    public ResponseEntity<UserDTO> createUser(@RequestBody User user) {
+        return new ResponseEntity<>(new UserDTO(userService.createUser(user)), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{username}/addSkill")
+    public ResponseEntity<UserDTO> addSkill(@PathVariable String username, @RequestBody Skill skill) {
+        return new ResponseEntity<>(new UserDTO(userService.addSkill(username, skill.getName())), HttpStatus.CREATED);
+    }
+
 }

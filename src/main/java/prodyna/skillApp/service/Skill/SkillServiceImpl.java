@@ -21,6 +21,10 @@ public class SkillServiceImpl implements SkillService {
         return skillRepository.findById(id).get();
     }
 
+    public Skill getSkillByName(String name) {
+        return skillRepository.findByName(name).get();
+    }
+
     public Skill createSkill(Skill skill) {
         return skillRepository.save(skill);
     }
@@ -41,4 +45,6 @@ public class SkillServiceImpl implements SkillService {
     public List<Skill> getAllSkills() {
         return skillRepository.findAll();
     }
+
+
 }
