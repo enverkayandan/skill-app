@@ -1,5 +1,7 @@
 package prodyna.skillApp.service.User;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,13 +29,17 @@ public class UserService implements UserDetailsService {
     }
 
     public User createUser(User user) {
+        if(userRepository.existsById(user.getUsername())) {
+            throw new EntityExistsException("User already exists with username " + user.getUsername());
+        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findById(username).orElseThrow();
+        return userRepository.findById(username).orElseThrow(() ->
+                new UsernameNotFoundException("User not found with username " + username));
     }
 
     public User addSkill(String username, String skillName) {
@@ -45,6 +51,9 @@ public class UserService implements UserDetailsService {
     }
 
     public void deleteUser(User user) {
+        if(userRepository.existsById(user.getUsername())) {
+            throw new EntityNotFoundException("Cannot delete, User not found with username " + user.getUsername());
+        }
         userRepository.delete(user);
     }
 }

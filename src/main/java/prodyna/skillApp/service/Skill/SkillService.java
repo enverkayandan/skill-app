@@ -11,7 +11,7 @@ public interface SkillService {
 
     Skill updateSkill(Long id, Skill skill);
 
-    boolean deleteSkill(Long id);
+    void deleteSkill(Long id);
 
     List<Skill> getAllSkills();
 

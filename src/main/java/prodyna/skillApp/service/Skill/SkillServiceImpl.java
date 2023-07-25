@@ -1,5 +1,7 @@
 package prodyna.skillApp.service.Skill;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import prodyna.skillApp.model.entity.Skill;
@@ -18,28 +20,32 @@ public class SkillServiceImpl implements SkillService {
     }
 
     public Skill getSkillById(Long id) {
-        return skillRepository.findById(id).get();
+        return skillRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
     }
 
     public Skill getSkillByName(String name) {
-        return skillRepository.findByName(name).get();
+        return skillRepository.findByName(name).orElseThrow(() -> new EntityNotFoundException());
     }
 
     public Skill createSkill(Skill skill) {
+        if(skillRepository.existsSkillByName(skill.getName()).isPresent()) {
+            throw new EntityExistsException("Skill already exists with name " + skill.getName());
+        }
         return skillRepository.save(skill);
     }
 
     public Skill updateSkill(Long id, Skill skill) {
+        if (!skillRepository.existsById(id)) {
+            throw new EntityNotFoundException("Cannot update, Skill not found with id " + id);
+        }
         return skillRepository.save(skill);
     }
 
-    public boolean deleteSkill(Long id) {
-        Skill skill = getSkillById(id);
-        if (skill != null) {
-            skillRepository.delete(skill);
-            return true;
+    public void deleteSkill(Long id) {
+        if (!skillRepository.existsById(id)) {
+            throw new EntityNotFoundException("Cannot delete, Skill not found with id " + id);
         }
-        return false;
+        skillRepository.deleteById(id);
     }
 
     public List<Skill> getAllSkills() {

@@ -30,43 +30,26 @@ public class SkillController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Skill> getSkill(@PathVariable Long id) {
-        try {
-            Skill skill = skillService.getSkillById(id);
-            return ResponseEntity.ok(skill);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Skill skill = skillService.getSkillById(id);
+        return ResponseEntity.ok(skill);
     }
 
     @PostMapping
     public ResponseEntity<Skill> createSkill(@RequestBody @Valid Skill skill) {
-        try {
-            Skill createdSkill = skillService.createSkill(skill);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                    .buildAndExpand(createdSkill.getId()).toUri();
-            return ResponseEntity.created(location).body(createdSkill);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        Skill createdSkill = skillService.createSkill(skill);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(createdSkill.getId()).toUri();
+        return ResponseEntity.created(location).body(createdSkill);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Skill> updateSkill(@PathVariable Long id, @RequestBody @Valid Skill updatedSkill) {
-        try {
-            return ResponseEntity.ok(skillService.updateSkill(id, updatedSkill));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-
+        return ResponseEntity.ok(skillService.updateSkill(id, updatedSkill));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSkill(@PathVariable Long id) {
-        try {
-            skillService.deleteSkill(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        skillService.deleteSkill(id);
+        return ResponseEntity.noContent().build();
     }
 }
