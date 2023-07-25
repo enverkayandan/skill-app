@@ -20,11 +20,11 @@ public class SkillServiceImpl implements SkillService {
     }
 
     public Skill getSkillById(Long id) {
-        return skillRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+        return skillRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     public Skill getSkillByName(String name) {
-        return skillRepository.findByName(name).orElseThrow(() -> new EntityNotFoundException());
+        return skillRepository.findByName(name).orElseThrow(EntityNotFoundException::new);
     }
 
     public Skill createSkill(Skill skill) {
