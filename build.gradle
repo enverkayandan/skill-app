@@ -66,7 +66,7 @@ test {
 	useJUnitPlatform()
 }
 
-task buildJar(type: Jar) {
+tasks.register('buildJar', Jar) {
 	from sourceSets.main.output
 	archiveFileName = "app.jar"
 }

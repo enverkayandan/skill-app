@@ -42,6 +42,14 @@ public class SkillController {
         return ResponseEntity.created(location).body(createdSkill);
     }
 
+    @PostMapping("/idempotent/{requestId}")
+    public ResponseEntity<Skill> createSkillIdempotent(@RequestBody @Valid Skill skill, @PathVariable String requestId) {
+        Skill createdSkill = skillService.createSkillIdempotent(skill, requestId);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(createdSkill.getId()).toUri();
+        return ResponseEntity.created(location).body(createdSkill);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Skill> updateSkill(@PathVariable Long id, @RequestBody @Valid Skill updatedSkill) {
         return ResponseEntity.ok(skillService.updateSkill(id, updatedSkill));
