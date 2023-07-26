@@ -14,9 +14,12 @@ public class SkillServiceImpl implements SkillService {
 
     private final SkillRepository skillRepository;
 
+    private final SkillIdempotencyService skillIdempotencyService;
+
     @Autowired
-    public SkillServiceImpl(SkillRepository skillRepository) {
+    public SkillServiceImpl(SkillRepository skillRepository, SkillIdempotencyService skillIdempotencyService) {
         this.skillRepository = skillRepository;
+        this.skillIdempotencyService = skillIdempotencyService;
     }
 
     public Skill getSkillById(Long id) {
@@ -28,10 +31,18 @@ public class SkillServiceImpl implements SkillService {
     }
 
     public Skill createSkill(Skill skill) {
-        if(skillRepository.existsSkillByName(skill.getName()).isPresent()) {
+        if(skillRepository.existsSkillByName(skill.getName()).get()) {
             throw new EntityExistsException("Skill already exists with name " + skill.getName());
         }
         return skillRepository.save(skill);
+    }
+
+    public Skill createSkillIdempotent(Skill skill, String requestId) {
+        if(skillIdempotencyService.isMember(requestId)) {
+            throw new EntityExistsException("Request Already Processed with ID:  " + requestId);
+        }
+        skillIdempotencyService.addToSet(requestId);
+        return createSkill(skill);
     }
 
     public Skill updateSkill(Long id, Skill skill) {

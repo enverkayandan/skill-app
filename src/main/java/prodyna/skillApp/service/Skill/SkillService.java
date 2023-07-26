@@ -9,6 +9,8 @@ public interface SkillService {
 
     Skill createSkill(Skill skill);
 
+    Skill createSkillIdempotent(Skill skill, String requestId);
+
     Skill updateSkill(Long id, Skill skill);
 
     void deleteSkill(Long id);
